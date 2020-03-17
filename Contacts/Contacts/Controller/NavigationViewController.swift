@@ -28,6 +28,7 @@ class NavigationViewController:  UIViewController {
     
     @IBAction func favouriteButtonClicked(_ sender: UIButton) {
         self.contacts.isSelected = !self.contacts.isSelected
+        storeData()
         heartButtonTapped()
         
     }
@@ -38,5 +39,16 @@ class NavigationViewController:  UIViewController {
         } else {
             self.favouriteLabel.setImage(UIImage(contentsOfFile: "heart1"), for: .normal)
         }
+    }
+    
+    func storeData() {
+        var value = [Contacts]()
+        value = ContactsManager().getData()
+        for (index,_) in value.enumerated() {
+            if value[index].name == self.contacts.name {
+                value[index].isSelected = self.contacts.isSelected
+            }
+        }
+        ContactsManager().storeData(array: value)
     }
 }
